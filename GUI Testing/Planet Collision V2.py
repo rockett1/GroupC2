@@ -9,17 +9,24 @@ window.wm_title("Blind robot")
 frame1 = Frame(window)
 frame1.pack(side = LEFT)
 # Settings menu frame.
-frame2 = Frame(window)
+frame2 = Frame(window, width = 50)
 frame2.pack(side = LEFT)
-# Top section of settings.
+# Top section of settings. (Item list label)
 frame3 = Frame(frame2)
 frame3.pack(side = TOP)
+# Section for the list box.
+frameListBox = Frame(frame2)
+frameListBox.pack(side = TOP)
 # 2nd from top section of settings.
 frame4 = Frame(frame2)
 frame4.pack(side = TOP)
 # 3rd from top section of settings.
 frame5 = Frame(frame2)
 frame5.pack(side = TOP)
+# 4th from top section of settings.
+frame6 = Frame(frame2)
+frame6.pack(side = BOTTOM)
+
 def getScreenSize():
     # NOT WORKING
     wwidth = canvas.winfo_reqwidth()
@@ -43,6 +50,10 @@ x_max, y_max = getScreenSize()
     
 def id1Random(x_max, y_max, size):
     # Used to get the random spawn position for x and y.
+    """
+    This functions takes the maximum x and y values as well as the size of the object
+    and return a random x and y position for the object to be created within the borders.
+    """
     startx1 = random.randint(size,x_max-size)
     starty1 = random.randint(size,y_max-size)
     return startx1, starty1
@@ -62,6 +73,7 @@ id1 = canvas.create_rectangle(startx1,starty1,startx1+10,starty1+10, fill = "gre
 #Player
 id3 = canvas.create_rectangle(px1, py1, px1+25, py1+25, fill = "purple")
 
+# Functions for buttons.
 def setName():
     canvas.focus_set()
 def Right():
@@ -70,7 +82,11 @@ def Up():
     print("Up")
 def Down():
     print("Down")
-
+def startGame():
+    print("Start game!")
+def stopGame():
+    print("Stop game!")
+    
 # Functions for changing velocity of player.
 def leftKey(event):
     print("Left key pressed.")
@@ -95,7 +111,7 @@ def returnKey(event):
 # Set up text input for ship name.
 itemListLabel = Label(frame3, text="ITEM LIST")
 itemListLabel.pack(side = TOP)
-L1 = Label(frame5, text="Ship Name")
+L1 = Label(frame5, text="Ship Name: ")
 L1.pack(side = LEFT)
 E1 = Entry(frame5, bd = 2)
 E1.pack(side = LEFT)
@@ -107,11 +123,23 @@ buttonL.pack(side=LEFT)
 #buttonU.pack(side=TOP)
 #buttonD = Button(frame2, text="Down", command=Down)
 #buttonD.pack(side=BOTTOM)
+
+# List box to display list of shapes/colours.
+shapeListBox = Listbox(frameListBox, height = 4)
+shapeListBox.pack(side = BOTTOM)
+shapeListBox.insert(1, "Triangles: ")
+shapeListBox.insert(2, "Squares: ")
+shapeListBox.insert(3, "Pentagons: ")
+#shapeTreeBox = Treeview(frameListBox)
+#shapeTreeBox.insert("Triangles: ", "Squares: ", "Pentagons: ")
+
+# Start and stop buttons.
+buttonStart = Button(frame6, text="START", command=startGame, background = "green", width=20)
+buttonStart.pack(side=LEFT)
+buttonStop = Button(frame6, text="STOP", command=stopGame, background = "red", width=20)
+buttonStop.pack(side=LEFT)
+
 # Set up shape select drop down menu.
-
-
-# Setting up frame for drop down menus.
-
 shapeVar = StringVar()
 shapeVar.set("Triangle")
 shapeSelect = OptionMenu(frame3, shapeVar, "Triangle", "Square", "Pentagon", "Hexagon")
