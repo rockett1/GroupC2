@@ -11,13 +11,13 @@ frame1.pack(side = LEFT)
 # Settings menu frame.
 frame2 = Frame(window, width = 50)
 frame2.pack(side = LEFT)
-# Top section of settings. (Item list label)
-frame3 = Frame(frame2)
-frame3.pack(side = TOP)
 # Section for the list box.
 frameListBox = Frame(frame2)
 frameListBox.pack(side = TOP)
-# 2nd from top section of settings.
+# Top section of settings. (Item list label)
+frame3 = Frame(frame2)
+frame3.pack(side = TOP)
+# 2nd from top section of settings. (Used for drop down menus)
 frame4 = Frame(frame2)
 frame4.pack(side = TOP)
 # 3rd from top section of settings.
@@ -44,7 +44,7 @@ pvy = 0.0
 x_min = 0.0
 y_min = 0.0
 playerCrash = False
-
+#startGame = False
 
 x_max, y_max = getScreenSize()
     
@@ -84,8 +84,12 @@ def Down():
     print("Down")
 def startGame():
     print("Start game!")
+    global startGame
+    startGame = True
 def stopGame():
     print("Stop game!")
+    global startGame
+    startGame = False
     
 # Functions for changing velocity of player.
 def leftKey(event):
@@ -109,7 +113,7 @@ def returnKey(event):
     canvas.focus_set()
 
 # Set up text input for ship name.
-itemListLabel = Label(frame3, text="ITEM LIST")
+itemListLabel = Label(frameListBox, text="ITEM LIST")
 itemListLabel.pack(side = TOP)
 L1 = Label(frame5, text="Ship Name: ")
 L1.pack(side = LEFT)
@@ -140,14 +144,22 @@ buttonStop = Button(frame6, text="STOP", command=stopGame, background = "red", w
 buttonStop.pack(side=LEFT)
 
 # Set up shape select drop down menu.
+labelShapeSelect = Label(frame4, text="Sort by: ")
+labelShapeSelect.pack()
+
 shapeVar = StringVar()
-shapeVar.set("Triangle")
-shapeSelect = OptionMenu(frame3, shapeVar, "Triangle", "Square", "Pentagon", "Hexagon")
+shapeVar.set("Shape")
+shapeSelect = OptionMenu(frame4, shapeVar, "Shape", "Colour")
+shapeSelect.config(width=35)
 shapeSelect.pack(side = TOP)
+
+labelSortAorD = Label(frame4, text="Sort in order of: ", justify=LEFT, font=("Helvetica", 14))
+labelSortAorD.pack()
 
 sortVar = StringVar()
 sortVar.set("Ascending")
 sortAorD = OptionMenu(frame4, sortVar, "Ascending", "Descending")
+sortAorD.config(width=35)
 sortAorD.pack(side = TOP)
 
 canvas.pack(padx=10, pady=10)
@@ -163,10 +175,12 @@ canvas.focus_set()
 #canvas.create_line(40,170,100,800,230,60,40,120,fill="blue",smooth="true")
 
 for t in range(1,5000):
+            
     x_max,y_max = getScreenSize()
     x1,y1,x2,y2 = canvas.coords(id1)
     Obx1,Oby1,Obx2,Oby2 = canvas.coords(id2)
-    px1, py1, px2, py2 = canvas.coords(id3)
+    if playerCrash == False:
+        px1, py1, px2, py2 = canvas.coords(id3)
 
     # Collision between Earth and Sun
     if x1 > (Obx2) and x1 < (Obx2 + 15) and y1 >= Oby1 and y1 <= Oby2:
@@ -220,11 +234,20 @@ for t in range(1,5000):
     if playerCrash == False:
         if px1 <= (Obx2) and px1 >= (Obx1) and py1 >= Oby1 and py1 <= Oby2:
             playerCrash = True
-        elif py1 <= (Oby2) and py1 >= (Oby1) and px1 >= Obx1 and px1 <= Obx2:
-            playerCrash = True
-        if playerCrash == True:
             shipName = E1.get()
             print("The ship \"" + shipName + "\" has crashed!")
+            canvas.delete(id3)
+        elif py1 <= (Oby2) and py1 >= (Oby1) and px1 >= Obx1 and px1 <= Obx2:
+            playerCrash = True
+            shipName = E1.get()
+            print("The ship \"" + shipName + "\" has crashed!")
+            canvas.delete(id3)
+            
+##    if playerCrash == True:
+##        shipName = E1.get()
+##        print("The ship \"" + shipName + "\" has crashed!")
+##        canvas.delete(id3)
+##        #playerCrash = 0
 
     # Update positions for objects.
     canvas.coords(id2,Obx1+ovx,Oby1+ovy,Obx2+ovx,Oby2+ovy)
