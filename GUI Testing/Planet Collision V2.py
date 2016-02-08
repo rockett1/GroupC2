@@ -44,7 +44,7 @@ pvy = 0.0
 x_min = 0.0
 y_min = 0.0
 playerCrash = False
-
+#startGame = False
 
 x_max, y_max = getScreenSize()
     
@@ -114,7 +114,7 @@ def returnKey(event):
 # Set up text input for ship name.
 itemListLabel = Label(frameListBox, text="ITEM LIST")
 itemListLabel.pack(side = TOP)
-L1 = Label(frame5, text="Ship Name")
+L1 = Label(frame5, text="Ship Name: ")
 L1.pack(side = LEFT)
 E1 = Entry(frame5, bd = 2)
 E1.pack(side = LEFT)
