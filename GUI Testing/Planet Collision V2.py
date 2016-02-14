@@ -73,7 +73,6 @@ id1 = canvas.create_rectangle(startx1,starty1,startx1+10,starty1+10, fill = "gre
 #Player
 id3 = canvas.create_rectangle(px1, py1, px1+25, py1+25, fill = "purple")
 
-# Functions for buttons.
 def setName():
     canvas.focus_set()
 def Right():
@@ -90,7 +89,7 @@ def stopGame():
     print("Stop game!")
     global startGame
     startGame = False
-    
+
 # Functions for changing velocity of player.
 def leftKey(event):
     print("Left key pressed.")
@@ -121,7 +120,6 @@ E1 = Entry(frame5, bd = 2)
 E1.pack(side = LEFT)
 buttonL = Button(frame5, text="Ok", command=setName)
 buttonL.pack(side=LEFT)
-
 
 # List box to display list of shapes/colours.
 shapeListBox = Listbox(frameListBox, height = 4)
@@ -159,6 +157,87 @@ sortAorD.pack(side = TOP)
 
 canvas.pack(padx=10, pady=10)
 
+# Bind all key presses to functions.
+canvas.bind("<Left>", leftKey)
+canvas.bind("<Right>", rightKey)
+canvas.bind("<Down>", downKey)
+canvas.bind("<Up>", upKey)
+canvas.bind("<Return>", returnKey)
+canvas.focus_set()
+
+#canvas.create_line(40,170,100,800,230,60,40,120,fill="blue",smooth="true")
+
+for t in range(1,5000):
+    x_max,y_max = getScreenSize()
+    x1,y1,x2,y2 = canvas.coords(id1)
+    Obx1,Oby1,Obx2,Oby2 = canvas.coords(id2)
+    px1, py1, px2, py2 = canvas.coords(id3)
+
+    # Collision between Earth and Sun
+    if x1 > (Obx2) and x1 < (Obx2 + 15) and y1 >= Oby1 and y1 <= Oby2:
+        countx = 3
+        print("Object detected left side.")
+    if x2 < (Obx1) and x2 > (Obx1 - 15) and y1 >= Oby1 and y1 <= Oby2:
+        print("Object detected right side.")
+        countx = -3
+    if y1 > (Oby2) and y1 < (Oby2 + 15) and x2 >= Obx1 and x1 <= Obx2:
+        print("Object detected above.")
+        county = 3
+    if y2 < (Oby1) and y2 > (Oby1 - 15) and x2 >= Obx1 and x1 <= Obx2:
+        print("Object detected below.")
+        county = -3
+
+    # Change direction if collision.    
+    if countx>0:
+        vx = 10.0
+        countx = countx-1
+    elif countx <0:
+        vx = -10.0
+        countx = countx+1
+    if county>0:
+        vy = 5.0
+        county = county-1
+    elif county<0:
+        vy = -5.0
+        county = county+1
+
+    # Boundry collision detection for Earth object.
+    if x1 >= x_max-10:
+        vx = -10.0
+    if y1 <= y_min+5:
+        vy = 5.0
+    if y2 >= y_max-5:
+        vy = -5.0
+    if x2 <= x_min+10:
+        vx = 10.0
+
+    # Boundry collision detection for Sun object.
+    if Obx1 >= x_max-160:
+        ovx = -2.0
+    elif Obx2 <= x_min+160:
+        ovx = 2.0
+    if Oby1 <= y_min+10:
+        ovy = 1.0
+    elif Oby2 >= y_max-10:
+        ovy = -1.0
+
+    # Collision between Sun and player objects.
+    if playerCrash == False:
+        if px1 <= (Obx2) and px1 >= (Obx1) and py1 >= Oby1 and py1 <= Oby2:
+            playerCrash = True
+        elif py1 <= (Oby2) and py1 >= (Oby1) and px1 >= Obx1 and px1 <= Obx2:
+            playerCrash = True
+        if playerCrash == True:
+            shipName = E1.get()
+            print("The ship \"" + shipName + "\" has crashed!")
+
+    # Update positions for objects.
+    canvas.coords(id2,Obx1+ovx,Oby1+ovy,Obx2+ovx,Oby2+ovy)
+    canvas.coords(id1,x1+vx,y1+vy,x2+vx,y2+vy)
+    if playerCrash == False:
+        canvas.coords(id3,px1+pvx,py1+pvy,px2+pvx,py2+pvy)
+    canvas.update()
+    time.sleep(0.025)
 
 window.mainloop()
     
