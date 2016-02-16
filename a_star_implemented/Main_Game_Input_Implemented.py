@@ -454,6 +454,34 @@ class Gui():
             print(inputs)
             inputs2 = seconds.get()
             print(inputs2)
+            TriInput = CheckVar1.get()
+            SquareInput= CheckVar2.get()
+            RectInput = CheckVar3.get()
+            BlueInput = CheckVar4.get()
+            RedInput = CheckVar5.get()
+            GreenInput = CheckVar6.get()
+            SortInput = sortVar.get()
+            ShapeInput = shapeVar.get()
+            print(str(SortInput) + " " + str(ShapeInput))
+            CheckInput(inputs, inputs2)
+            
+            
+
+            #function name that checks
+
+        def CheckInput(minutes, sec):
+            try:
+                IntMins = int(minutes)
+                IntSec = int(sec)
+##                triangles, squares, rectangles
+##                blue, red, green
+##                sort by, sort order of
+
+            except ValueError:
+                print("wrong value")
+
+                
+                
       
 def main():
     pgame=MyPyGame()
