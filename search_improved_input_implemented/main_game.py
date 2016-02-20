@@ -1,6 +1,7 @@
 # Main game file
 #importing necessary
 import pygame
+import copy
 import tkinter as tk
 from tkinter import *
 import sys
@@ -69,7 +70,7 @@ class MyPyGame(object):
         minim=10000
         
         find_list={}
-        for i in self.objects:
+        for i in self.good_list:
             distance=self.cost(start,i.get_coord())
             price=i.get_price()
             find_list[i]=distance
@@ -148,16 +149,48 @@ class MyPyGame(object):
                 pygame.display.update()
                 self.clock.tick(self.FPS)
             
-            for i in self.objects:
+            for i in self.good_list:
                 if end==i.get_coord(): 
                     x=i
-            self.objects.remove(x) 
+            self.good_list.remove(x)
+            self.objects.remove(x)
             exitGame=True
         pygame.display.update()
+    def obj_to_found(self,Alist):
+        ok=1
+        self.good_list=[]
+        self.minutes=user_input[0]
+        self.seconds=user_input[1]
+        self.sort_type=user_input[9]
+        self.sort_order=user_input[8]
+        red_i=user_input[6]
+        blue_i=user_input[5]
+        green_i=user_input[7]
+        square_i=user_input[3]
+        rect_i=user_input[4]
+        tri_i=user_input[2]
+        
 
+        for i in self.objects:
+            
+            if i.get_colour()==self.red and (red_i)==1:
+                ok=0
+            if i.get_colour()==self.blue and (blue_i)==1:
+                ok=0
+            if i.get_colour()==self.green and (green_i)==1:
+                ok=0
+            if i.get_shape()=='T' and (tri_i)==1:
+                ok=0
+            if i.get_shape()=='R' and (rect_i)==1:
+                ok=0
+            if i.get_shape()=='S' and (square_i)==1:
+                ok=0
+            if ok==0:
+                self.good_list.append(i)
+            ok=1
+        return (self.good_list)
     def game(self,x,y):
         exitGame=False
-        
         while not exitGame:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
@@ -166,11 +199,13 @@ class MyPyGame(object):
             self.start_point_x=x+30
             self.start_point_y=y+15
             self.ship=pygame.image.load('ship.png')
-            self.random_object_generator(6)
+            self.random_object_generator(10)
+            self.good_list=self.obj_to_found(self.objects)
+            
             self.start_pos=(self.start_point_x,self.start_point_y)
             #call the search function
             
-            while self.objects:
+            while self.good_list:
                 current_to_be_found=self.find_best_obj((self.start_pos))
                 self.search((self.start_pos),(current_to_be_found),self.Glist)
                 self.start_pos=current_to_be_found
@@ -256,6 +291,7 @@ class MyPyGame(object):
                                 self.Glist=self.occupy_grid(x,y)
                         ob1=Square(rand_x,rand_y,price,45,self.screen,colours[rand_colour])
                         self.objects.append(ob1)
+                        nr=nr-1
                 elif rand_shape==2:
                     ok=1
                     for x in range(rand_x,rand_x+31,30):
@@ -272,6 +308,7 @@ class MyPyGame(object):
                                 self.Glist=self.occupy_grid(x,y)
                         ob2=Triangle(rand_x,rand_y,price,45,self.screen,colours[rand_colour])
                         self.objects.append(ob2)
+                        nr=nr-1
                 elif rand_shape==3:
                     ok=1
                     for x in range(rand_x,rand_x+31,30):
@@ -286,7 +323,7 @@ class MyPyGame(object):
                                 self.Glist=self.occupy_grid(x,y)
                         ob3=Rectangle(rand_x,rand_y,price,45,self.screen,colours[rand_colour])
                         self.objects.append(ob3)
-                nr=nr-1
+                        nr=nr-1
         pygame.display.update()
 
 
@@ -458,8 +495,9 @@ class Gui():
         GreenInput=self.CheckVar6.get()
         SortInput=self.sortVar.get()
         ShapeInput=self.shapeVar.get()
-        
         self.CheckInput(inputs,inputs2)
+        global user_input
+        user_input= (inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
     def CheckInput(self,minutes,sec):
         try:
             IntMins=int(minutes)

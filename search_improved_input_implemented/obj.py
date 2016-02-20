@@ -21,6 +21,8 @@ class Object:
         return((self.x1,self.y1))
     def get_price(self):
         pass
+    def get_colour(self):
+        return(self.colour)
 class Triangle(Object):
     def __init__(self,x1,y1,price,dimension,screen,colour):
         Object.__init__(self,x1,y1,screen,colour)
@@ -34,7 +36,10 @@ class Triangle(Object):
     def print_obj(self):
         return(pygame.draw.polygon(self.screen,self.colour,((self.x1,self.y1),(self.x2,self.y2),(self.x3,self.y3))))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price))
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+    def get_shape(self):
+        if __class__.__name__=='Triangle':
+            return ('T')
     
 class Quadrilater(Object):
     def __init__(self,x1,y1,price,dimension,screen,colour):
@@ -52,8 +57,10 @@ class Square(Quadrilater):
     def print_obj(self):
         return(pygame.draw.rect(self.screen,self.colour,(self.x1,self.y1,self.heigth,self.weight)))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price))
-    
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+    def get_shape(self):
+        if __class__.__name__=='Square':
+            return ('S')
 class Rectangle(Quadrilater):
     def __init__(self,x1,y1,price,dimension,screen,colour):
         Quadrilater.__init__(self,x1,y1,price,dimension,screen,colour)
@@ -62,8 +69,10 @@ class Rectangle(Quadrilater):
     def print_obj(self):
         return(pygame.draw.rect(self.screen,self.colour,(self.x1,self.y1,self.heigth,self.weight)))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price))
-    
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+    def get_shape(self):
+        if __class__.__name__=='Rectangle':
+            return ('R')
 class Circle(Object):
     def __init__(self,x1,y1,dimension,screen,colour):
         Object.__init__(self,x1,y1,screen,colour)
