@@ -450,10 +450,9 @@ class Gui():
        
 
         def getTextboxInput():
+            ''' Gets all values from input window. Passes to function to use inputs.'''
             inputs = minutes.get()
-            print(inputs)
             inputs2 = seconds.get()
-            print(inputs2)
             TriInput = CheckVar1.get()
             SquareInput= CheckVar2.get()
             RectInput = CheckVar3.get()
@@ -462,23 +461,51 @@ class Gui():
             GreenInput = CheckVar6.get()
             SortInput = sortVar.get()
             ShapeInput = shapeVar.get()
-            print(str(SortInput) + " " + str(ShapeInput))
-            CheckInput(inputs, inputs2)
+            CheckInput(inputs, inputs2, SortInput)
+        
             
-            
+        
 
-            #function name that checks
 
-        def CheckInput(minutes, sec):
+
+        def CheckInput(minutes, sec, sort):
+            '''Takes three inputs, converts the time inputs into int
+                makes sure that it is a maximum time value of 6 min. Launches
+                the game if time input is okay, else prints to console.'''
             try:
                 IntMins = int(minutes)
                 IntSec = int(sec)
-##                triangles, squares, rectangles
-##                blue, red, green
-##                sort by, sort order of
-
+                
+                if IntMins >= 7:
+                    print("Searching minutes has to be below 5")
+                else:
+                    if IntMins == 6:
+                        if IntSec > 0:
+                            print("Searching seconds has to be below 60")
+                        else:
+                            if sort == "Ascending":
+                                print("123")
+                                print("All Good")
+                                self.mpg.spawn_ship()
+                            else:
+                                print("321")
+                                print("All Good")
+                                self.mpg.spawn_ship()
+                    else:
+                        if IntSec >= 60:
+                            print("Searching seconds has to be below 60")
+                        else:
+                            if sort == "Ascending":
+                                print("123")
+                                print("All Good")
+                                self.mg.spawn_ship()
+                            else:
+                                print("321")
+                                print("All Good")
+                                self.mpg.spawn_ship()              
             except ValueError:
                 print("wrong value")
+            
 
                 
                 
