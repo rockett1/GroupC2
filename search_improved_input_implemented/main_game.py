@@ -136,6 +136,11 @@ class MyPyGame(object):
                 if x<first_x and y<first_y:
                     #direction='up_left'
                     ship=pygame.transform.rotate(self.ship,45)
+                self.t_current=time.time()
+                
+                if (self.t_current-self.t1)>self.seconds:
+                    exitGame=True
+                    break
                 self.screen.blit(self.held_image,(0,0))
                 first_x=x
                 first_y=y
@@ -154,13 +159,15 @@ class MyPyGame(object):
                     x=i
             self.good_list.remove(x)
             self.objects.remove(x)
+            self.sort_list.append(x)
             exitGame=True
         pygame.display.update()
     def obj_to_found(self,Alist):
         ok=1
         self.good_list=[]
-        self.minutes=user_input[0]
-        self.seconds=user_input[1]
+        self.minutes=int(user_input[0])
+        self.seconds=int(user_input[1])
+        self.seconds=self.seconds+(self.minutes*60)
         self.sort_type=user_input[9]
         self.sort_order=user_input[8]
         red_i=user_input[6]
@@ -190,7 +197,9 @@ class MyPyGame(object):
             ok=1
         return (self.good_list)
     def game(self,x,y):
+        self.sort_list=[]
         exitGame=False
+        self.t1=time.time()
         while not exitGame:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
@@ -200,8 +209,7 @@ class MyPyGame(object):
             self.start_point_y=y+15
             self.ship=pygame.image.load('ship.png')
             self.random_object_generator(10)
-            self.good_list=self.obj_to_found(self.objects)
-            
+            self.good_list=self.obj_to_found(self.objects)            
             self.start_pos=(self.start_point_x,self.start_point_y)
             #call the search function
             
@@ -209,7 +217,7 @@ class MyPyGame(object):
                 current_to_be_found=self.find_best_obj((self.start_pos))
                 self.search((self.start_pos),(current_to_be_found),self.Glist)
                 self.start_pos=current_to_be_found
-                
+        
             exitGame=True
         pygame.display.update()
     def create_grid(self):
