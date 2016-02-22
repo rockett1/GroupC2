@@ -15,6 +15,15 @@ class Object:
 
         self.colour=colour
         self.screen=screen
+        self.strColour = self.stringColour()
+    def stringColour(self):
+        if self.colour == (200, 0, 0):
+            return "red"
+        elif self.colour == (0, 190, 0):
+            return "green"
+        elif self.colour == (63,72,204):
+            return "blue"
+        
     def print_obj(self):
         pass
     def get_coord(self):
@@ -36,7 +45,7 @@ class Triangle(Object):
     def print_obj(self):
         return(pygame.draw.polygon(self.screen,self.colour,((self.x1,self.y1),(self.x2,self.y2),(self.x3,self.y3))))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.strColour)+" colour.")
     def get_shape(self):
         if __class__.__name__=='Triangle':
             return ('T')
@@ -57,7 +66,7 @@ class Square(Quadrilater):
     def print_obj(self):
         return(pygame.draw.rect(self.screen,self.colour,(self.x1,self.y1,self.heigth,self.weight)))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.strColour)+" colour.")
     def get_shape(self):
         if __class__.__name__=='Square':
             return ('S')
@@ -69,7 +78,7 @@ class Rectangle(Quadrilater):
     def print_obj(self):
         return(pygame.draw.rect(self.screen,self.colour,(self.x1,self.y1,self.heigth,self.weight)))
     def __str__(self):
-        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.colour)+" colour")
+        return(__class__.__name__ + " with a price of " + str(self.price)+" and the "+str(self.strColour)+" colour.")
     def get_shape(self):
         if __class__.__name__=='Rectangle':
             return ('R')
