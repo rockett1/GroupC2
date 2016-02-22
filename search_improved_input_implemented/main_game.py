@@ -13,6 +13,7 @@ from obj import Circle
 from obj import Square
 from obj import Rectangle
 from a_star import A_star
+import sorting
 
 class MyPyGame(object):
     def __init__(self):
@@ -332,6 +333,10 @@ class MyPyGame(object):
                         ob3=Rectangle(rand_x,rand_y,price,45,self.screen,colours[rand_colour])
                         self.objects.append(ob3)
                         nr=nr-1
+
+        sortedObjList = sorting.bubble(self.objects, user_input[9].lower(), user_input[8].lower())
+        for item in sortedObjList:
+            print(item)
         pygame.display.update()
 
 

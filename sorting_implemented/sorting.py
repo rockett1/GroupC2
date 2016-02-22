@@ -11,11 +11,11 @@ def shapeSortValue(shape):
     return shapeType
 
 def colourSortValue(shape):
-    if shape.colour == "green":
+    if shape.strColour == "green":
         colourType = 0
-    elif shape.colour == "blue":
+    elif shape.strColour == "blue":
         colourType = 1
-    elif shape.colour == "red":
+    elif shape.strColour == "red":
         colourType = 2
 
     return colourType
@@ -23,10 +23,6 @@ def colourSortValue(shape):
 def bubble(objList, sortVar, orderVar):
     swapCount = 0
     checkCount = 0
-    # Shape order.
-    #(triangle,square,rectangle) = (0,1,2)
-    # Colour order.
-    #(green,blue,red) = (0,1,2)
     
     for i in range(len(objList)):
         
@@ -76,31 +72,9 @@ def bubble(objList, sortVar, orderVar):
             
     #print("FINISHED")
     #print("Checks: " + str(checkCount) + " Swaps: " + str(swapCount))
-    return objList
+    if orderVar == "ascending":
+        return objList
+    elif orderVar == "descending":
+        return objList[::-1]
 
-##rect2 = Rectangle(1,1,2,10,None,"blue")
-##tri1 = Triangle(1,1,6,10,None,"green")
-##sq1 = Square(1,1,3,10,None,"blue")
-##rect1 = Rectangle(1,1,1,10,None,"green")
-##tri2 = Triangle(1,1,5,10,None,"red")
-##tri3 = Triangle(1,1,6.1,10,None,"green")
-##
-##objList = []
-##objList.append(rect2)
-##objList.append(sq1)
-##objList.append(tri2)
-##objList.append(rect1)
-##objList.append(tri1)
-##objList.append(tri3)
-##
-##for item in objList:
-##    print(item)
-##sortObjList = bubble(objList, "shape", "+")
-##for item in sortObjList:
-##    print(item)
-##
-##colourSortObjList = bubble(objList,"colour","-")
-##for item in colourSortObjList:
-##    print(item)
- 
             
