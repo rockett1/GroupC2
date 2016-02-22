@@ -446,11 +446,8 @@ class Gui():
         C3 = Checkbutton(checkbox_frame1, text = "Rectangles", variable = self.CheckVar3, onvalue = 1, offvalue = 0, height=3,  width = 20)
 
         # Start button.
-        buttonStart = Button(startframe, text="START", command=lambda a=self.mpg: self.mpg.spawn_ship(), background = "green", width=20)
+        buttonStart = Button(startframe, text="START", command=lambda a=self.mpg: self.getTextBoxInput(), background = "green", width=20)
         buttonStart.pack(side=LEFT)
-        buttonMinutes = Button(startframe, text = "Enter inputs", command=lambda: self.getTextBoxInput(), background = "blue", width=20)
-        buttonMinutes.pack(side = LEFT)
-
 
         # Set up shape select drop down menu.
         labelShapeSelect = Label(option_frame1, text="Sort by: ")
@@ -493,6 +490,7 @@ class Gui():
         self.seconds.pack(side=LEFT,expand=True,fill=BOTH)
        
     def getTextBoxInput(self):
+        '''Takes all inputs from input window. Calls CheckInput and passes all inputs.'''
         inputs=self.minutes.get()
         inputs2=self.seconds.get()
         TriInput=self.CheckVar1.get()
@@ -503,19 +501,54 @@ class Gui():
         GreenInput=self.CheckVar6.get()
         SortInput=self.sortVar.get()
         ShapeInput=self.shapeVar.get()
-        self.CheckInput(inputs,inputs2)
-        global user_input
-        user_input= (inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
-    def CheckInput(self,minutes,sec):
+        self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
+    def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput ):
+        '''Takes 11 inputs, converts the time inputs into int,defines global variable with
+            all input values within it. Makes sure that it is a maximum time value of 6 minutes.
+            Calls CheckCheckBox function if valid time inputs, else prints to console.'''
         try:
             IntMins=int(minutes)
-            if IntMins<0:
-                raise ValueError('Must be positive')
             IntSec=int(sec)
-            if IntSec<0 or IntSec>60:
-                raise ValueError('Seconds must be between 0-60')
-        except TypeError:
+            global user_input
+            user_input= (IntMins,IntSec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
+
+            if IntMins<0:
+                print('Must be positive')
+            elif IntMins >= 7:
+                print("Searching minutes has to be below or equal to 6")
+            else:
+                
+                if IntMins == 6:
+                    if IntSec > 0 or IntSec < 0:
+                            print("Searching seconds has to be be equal to 0")
+                    else:
+                        self.CheckCheckBox()
+
+                elif IntSec<0 or IntSec>60:
+                    print('Seconds must be between 0-60')
+                else:
+                    self.CheckCheckBox()
+
+        except ValueError:
             print('Wrong Input!')
+
+    def CheckCheckBox(self):
+        '''Loops through all the checkbox values, if none of them are ticked then tells user to tick one.
+           Otherwise launches the game.'''
+        i = 2
+        BoxesTorF = False
+        while BoxesTorF == False and i <=7:
+            if user_input[i] == 1:
+                BoxesTorF = True
+
+            i = i+1
+
+        if BoxesTorF == False:
+            print("Please tick at least one checkbox")
+        else:
+            self.mpg.spawn_ship()
+
+    
     	
 def main():
     pgame=MyPyGame()
