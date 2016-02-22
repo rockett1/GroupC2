@@ -217,14 +217,9 @@ class MyPyGame(object):
 
         return colourType
 
-    def bubble(self,objList, sortVar, orderVar):
+    def bubble(self, objList, sortVar, orderVar):
         swapCount = 0
         checkCount = 0
-        # Shape order.
-        #(triangle,square,rectangle) = (0,1,2)
-        # Colour order.
-        #(green,blue,red) = (0,1,2)
-        print( objList)
             
         for i in range(len(objList)):
         
@@ -235,42 +230,88 @@ class MyPyGame(object):
                 itemIndex = objList.index(item)
                 itemPrice = item.price
                 checkCount += 1
-            
-                if sortVar == "shape":
-                    try:
-                        if itemVal > self.shapeSortValue(objList[itemIndex+1]):
-                            objList[itemIndex] = objList[itemIndex+1]
-                            objList[itemIndex+1] = item
-                            swapCount+=1
-                        elif itemVal == self.shapeSortValue(objList[itemIndex+1]):
-                            if itemPrice < objList[itemIndex+1].price:
+
+                if orderVar == "Ascending":
+                    if sortVar == "Shape":
+                        try:
+                            if itemVal > self.shapeSortValue(objList[itemIndex+1]):
                                 objList[itemIndex] = objList[itemIndex+1]
                                 objList[itemIndex+1] = item
                                 swapCount+=1
-                        else:
-                            continue
-        
-                # When reached end of list.
-                    except:
-                        print("Line complete")
-                
-                elif sortVar == "colour":
-                    try:
-                        if colourVal > self.colourSortValue(objList[itemIndex+1]):
-                            objList[itemIndex] = objList[itemIndex+1]
-                            objList[itemIndex+1] = item
-                            swapCount+=1
-                        elif colourVal == self.colourSortValue(objList[itemIndex+1]):
-                            if itemPrice < objList[itemIndex+1].price:
+                            elif itemVal == self.shapeSortValue(objList[itemIndex+1]):
+                                if itemPrice < objList[itemIndex+1].price:
+                                    objList[itemIndex] = objList[itemIndex+1]
+                                    objList[itemIndex+1] = item
+                                    swapCount+=1
+                            else:
+                                continue
+                        # When reached end of list.
+                        except:
+                            pass
+                            #print("Line complete")
+                    
+                    elif sortVar == "Colour":
+                        try:
+                            if colourVal > self.colourSortValue(objList[itemIndex+1]):
                                 objList[itemIndex] = objList[itemIndex+1]
                                 objList[itemIndex+1] = item
                                 swapCount+=1
-                        else:
-                            continue
-                
-                # When reached end of list.
-                    except:
-                        print("Line complete")
+                            elif colourVal == self.colourSortValue(objList[itemIndex+1]):
+                                if itemPrice < objList[itemIndex+1].price:
+                                    objList[itemIndex] = objList[itemIndex+1]
+                                    objList[itemIndex+1] = item
+                                    swapCount+=1
+                            else:
+                                continue
+                        # When reached end of list.
+                        except:
+                            pass
+                            #print("Line complete")
+                        
+                elif orderVar == "Descending":
+                    if sortVar == "Shape":
+                        try:
+                            if itemVal < self.shapeSortValue(objList[itemIndex+1]):
+                                objList[itemIndex] = objList[itemIndex+1]
+                                objList[itemIndex+1] = item
+                                swapCount+=1
+                            elif itemVal == self.shapeSortValue(objList[itemIndex+1]):
+                                if itemPrice > objList[itemIndex+1].price:
+                                        objList[itemIndex] = objList[itemIndex+1]
+                                        objList[itemIndex+1] = item
+                                        swapCount+=1
+                            else:
+                                continue
+                        # When reached end of list.
+                        except:
+                            pass
+                            #print("Line complete")
+                    
+                    elif sortVar == "Colour":
+                        try:
+                            print("DESCENDING COLOURS")
+                            if colourVal < self.colourSortValue(objList[itemIndex+1]):
+                                objList[itemIndex] = objList[itemIndex+1]
+                                objList[itemIndex+1] = item
+                                swapCount+=1
+                            elif colourVal == self.colourSortValue(objList[itemIndex+1]):
+                                if itemPrice > objList[itemIndex+1].price:
+                                    objList[itemIndex] = objList[itemIndex+1]
+                                    objList[itemIndex+1] = item
+                                    swapCount+=1
+                            else:
+                                continue
+                        # When reached end of list.
+                        except:
+                            pass
+                                         
+                    else:
+                        raise ValueError("sortVar must be either \"Colour\" or \"Shape\"")
+                else:
+                    raise ValueError("orderVar must be either \"Descending\" or \"Ascending\"")
+
+        for item in objList:
+            print(item)
             
         #print("FINISHED")
         #print("Checks: " + str(checkCount) + " Swaps: " + str(swapCount))
@@ -290,7 +331,7 @@ class MyPyGame(object):
                 if x>=self.display_width:
                     y=y+60
                 i.print_obj_sort(x,y)
-                x=x+60
+                x=x+80
             pygame.display.update()
     
     def end_search(self):
@@ -461,8 +502,7 @@ class MyPyGame(object):
                     
                     self.game(x,y)
                 elif action=='sort':
-                    print('yes')
-                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                    self.bubble(self.sort_list, self.sort_type, self.sort_order)
                     
                 
         else:
