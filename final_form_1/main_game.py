@@ -60,6 +60,7 @@ class MyPyGame(object):
             quitimg=pygame.image.load('quit.png')
             quitimg1=pygame.image.load('quit1.png')
             self.message_display("Welcome to Space Hunter!")
+            self.message_display1("Set the timer, pick what you want to find and how you want to sort them :)")
             self.button(400,350,startimg1,startimg,"play")
             self.button(760,350,quitimg1,quitimg,"quit")
         pygame.display.update()
@@ -146,6 +147,7 @@ class MyPyGame(object):
                 first_y=y
                 for i in self.objects:
                     i.print_obj()
+                    self.message_display_price(str(i.get_price()),i.get_x(),i.get_y())
                 for i in self.obstacles:
                     i.print_obj()
                 pos_x=x
@@ -286,10 +288,13 @@ class MyPyGame(object):
             for i in objList:
                 if x>=self.display_width:
                     y=y+60
+                
                 i.print_obj_sort(x,y)
+                self.message_display_price(str(i.get_price()),x,y)
                 x=x+90
+            
             pygame.display.update()
-    
+            
     def end_search(self):
         exitGame=False
         self.screen.blit(self.held_image,(0,0))
@@ -335,7 +340,6 @@ class MyPyGame(object):
                 self.Glist[(i,j)]=True
                 nrj=nrj+1
 
-
         return(self.Glist)
     def occupy_grid(self,x,y):
         self.Glist[(x,y)]=False
@@ -355,7 +359,6 @@ class MyPyGame(object):
             i=randint(0,len(self.Glist)-1)
 
             pos=list(self.Glist)[i]
-
 
             rand_x=pos[0]
             rand_y=pos[1]
@@ -472,10 +475,23 @@ class MyPyGame(object):
         pygame.font.init()
         self.largeText=pygame.font.Font('freesansbold.ttf',40)
         TextSurf,TextRect=self.text_objects(text,self.largeText)
+        TextRect.center=((self.display_width/2),((self.display_height/2)-100))
+        self.screen.blit(TextSurf,TextRect)
+        pygame.display.update()
+    def message_display1(self,text):
+        pygame.font.init()
+        self.largeText=pygame.font.Font('freesansbold.ttf',30)
+        TextSurf,TextRect=self.text_objects(text,self.largeText)
         TextRect.center=((self.display_width/2),(self.display_height/2))
         self.screen.blit(TextSurf,TextRect)
         pygame.display.update()
-
+    def message_display_price(self,text,x,y):
+        pygame.font.init()
+        self.largeText=pygame.font.Font('freesansbold.ttf',20)
+        TextSurf,TextRect=self.text_objects(text,self.largeText)
+        TextRect.center=((x+15),(y+15))
+        self.screen.blit(TextSurf,TextRect)
+        
     def spawn_ship(self):
         
             exitW=False
