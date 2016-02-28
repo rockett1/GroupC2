@@ -76,7 +76,7 @@ class MyPyGame(object):
             price=i.get_price()
             find_list[i]=distance
             if (find_list[i]/price)<minim:
-                minim=find_list[i]
+                minim=(find_list[i]/price)
                 position=i.get_coord()
                 x=i
         return(position)
