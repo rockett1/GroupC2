@@ -688,8 +688,8 @@ class Gui():
         self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
     def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput ):
         '''Takes 11 inputs, converts the time inputs into int,defines global variable with
-            all input values within it. Makes sure that it is a maximum time value of 6 minutes.
-            Calls CheckCheckBox function if valid time inputs, else prints to console.'''
+        all input values within it. Makes sure that it is a maximum time value of 6 minutes.
+        Calls CheckCheckBox function if valid time inputs, else prints to console.'''
         try:
             IntMins=int(minutes)
             IntSec=int(sec)
@@ -697,25 +697,27 @@ class Gui():
             user_input= (IntMins,IntSec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
 
             if IntMins<0:
-                print('Must be positive')
+                messagebox.showerror('Error','Must be positive')
+
             elif IntMins >= 7:
-                print("Searching minutes has to be below or equal to 6")
+                messagebox.showerror('Error','Searching seconds has to be be equal to 0')
+
             else:
                 
                 if IntMins == 6:
                     if IntSec > 0 or IntSec < 0:
-                            print("Searching seconds has to be be equal to 0")
+                            messagebox.showerror('Error','Searching seconds has to be be equal to 0')
                     else:
                         self.CheckCheckBox()
 
                 elif IntSec<0 or IntSec>60:
-                    print('Seconds must be between 0-60')
+                    messagebox.showerror('Error','Seconds must be between 0-60')
                 else:
                     self.CheckCheckBox()
 
         except ValueError:
-            print('Wrong Input!')
-
+            messagebox.showerror('Error','Wrong Input')
+    
     def CheckCheckBox(self):
         '''Loops through all the checkbox values, if none of them are ticked then tells user to tick one.
            Otherwise launches the game.'''
@@ -728,9 +730,11 @@ class Gui():
             i = i+1
 
         if BoxesTorF == False:
-            print("Please tick at least one checkbox")
+            messagebox.showerror('Error','Please tick at least one box ')
+            
         else:
             self.mpg.spawn_ship()
+
 
 def main():
     pgame=MyPyGame()
