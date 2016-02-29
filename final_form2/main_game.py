@@ -352,11 +352,12 @@ class MyPyGame(object):
                 self.message_display_price(str(i.get_price()),x,y)
                 x=x+90
             
-            pygame.display.update()
-            quiT=pygame.image.load('quiT.png')
-            quiT1=pygame.image.load('quiT1.png')
-            self.button((self.display_width/2)-100,(self.display_height/2)-50,quiT,quiT1,"quit")
+            qT=pygame.image.load('qT.png')
+            qT1=pygame.image.load('qT1.png')
+            self.button((self.display_width/2)-100,(self.display_height/2)+50,qT1,qT,"quit")
+            
 
+            pygame.display.update()
             
     def end_search(self):
         exitGame=False
