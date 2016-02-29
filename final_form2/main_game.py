@@ -220,10 +220,20 @@ class MyPyGame(object):
         return colourType
 
     def bubble(self,objList, sortVar, orderVar):
-        swapCount = 0
+        """
+        This function takes 3 arguments.
+        1: A list of shape objects.
+        2: A variable for selecting whether to sort by shape or colour.
+        3: A variable for selecting whether to sort in decending of ascending order.
+
+        The functions sorts the list and then displays the objects on screen in the chosen sorted order.
+        """
+
         checkCount = 0
     
         for i in range(len(objList)):
+
+            swapCount = 0
         
             for item in objList:
 
@@ -316,6 +326,9 @@ class MyPyGame(object):
                         raise ValueError("sortVar must be either \"Colour\" or \"Shape\"")
                 else:
                     raise ValueError("orderVar must be either \"Descending\" or \"Ascending\"")
+
+            if swapCount == 0:
+                break
 
         exitGame=False
         self.screen.blit(self.held_image,(0,0))
