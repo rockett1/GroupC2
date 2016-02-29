@@ -167,8 +167,8 @@ class MyPyGame(object):
     def obj_to_found(self,Alist):
         ok=1
         self.good_list=[]
-        self.minutes=int(user_input[0])
-        self.seconds=int(user_input[1])
+        self.minutes=float(user_input[0])
+        self.seconds=float(user_input[1])
         self.seconds=self.seconds+(self.minutes*60)
         self.sort_type=user_input[9]
         self.sort_order=user_input[8]
@@ -689,22 +689,26 @@ class Gui():
         GreenInput=self.CheckVar6.get()
         SortInput=self.sortVar.get()
         ShapeInput=self.shapeVar.get()
+        if inputs == "":
+            inputs = 0
+        if inputs2 == "":
+            inputs2 = 0
         self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
     def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput ):
         '''Takes 11 inputs, converts the time inputs into int,defines global variable with
         all input values within it. Makes sure that it is a maximum time value of 6 minutes.
         Calls CheckCheckBox function if valid time inputs, else prints to console.'''
         try:
-            IntMins=int(minutes)
-            IntSec=int(sec)
+            IntMins=float(minutes)
+            IntSec=float(sec)
             global user_input
             user_input= (IntMins,IntSec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
 
             if IntMins<0:
                 messagebox.showerror('Error','Must be positive')
 
-            elif IntMins >= 7:
-                messagebox.showerror('Error','Searching seconds has to be be equal to 0')
+            elif IntMins >6:
+                messagebox.showerror('Error','Searching seconds maximum is 6 minutes')
 
             else:
                 
