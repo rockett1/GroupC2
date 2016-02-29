@@ -737,7 +737,9 @@ class Gui():
             messagebox.showerror('Error','Please tick at least one box ')
             
         else:
+            self.root.withdraw()
             self.mpg.spawn_ship()
+             
 
 
 def main():
