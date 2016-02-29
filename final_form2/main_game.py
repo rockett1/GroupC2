@@ -353,6 +353,10 @@ class MyPyGame(object):
                 x=x+90
             
             pygame.display.update()
+            quiT=pygame.image.load('quiT.png')
+            quiT1=pygame.image.load('quiT1.png')
+            self.button((self.display_width/2)-100,(self.display_height/2)-50,quiT,quiT1,"quit")
+
             
     def end_search(self):
         exitGame=False
