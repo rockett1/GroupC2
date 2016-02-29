@@ -237,6 +237,7 @@ class MyPyGame(object):
         
             for item in objList:
 
+                # Gives each item a numeric value for colour and shape to allow them to be compared easily.
                 itemVal = self.shapeSortValue(item)
                 colourVal = self.colourSortValue(item)
                 itemIndex = objList.index(item)
@@ -247,10 +248,12 @@ class MyPyGame(object):
                     if sortVar == "Shape":
                         try:
                             if itemVal > self.shapeSortValue(objList[itemIndex+1]):
+                                # If item is greater than the next item in the list, swap them.
                                 objList[itemIndex] = objList[itemIndex+1]
                                 objList[itemIndex+1] = item
                                 swapCount+=1
                             elif itemVal == self.shapeSortValue(objList[itemIndex+1]):
+                                # If item is equal to the next item, compare the price of each item.
                                 if itemPrice < objList[itemIndex+1].price:
                                     objList[itemIndex] = objList[itemIndex+1]
                                     objList[itemIndex+1] = item
