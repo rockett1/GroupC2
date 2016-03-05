@@ -140,6 +140,7 @@ class MyPyGame(object):
                 self.t_current=time.time()
                 
                 if (self.t_current-self.t1)>self.seconds:
+                    self.breakloop=1
                     exitGame=True
                     break
                 self.screen.blit(self.held_image,(0,0))
@@ -162,6 +163,8 @@ class MyPyGame(object):
             self.good_list.remove(x)
             self.objects.remove(x)
             self.sort_list.append(x)
+            if self.breakloop==1:
+                self.sort_list.remove(x)
             exitGame=True
         pygame.display.update()
     def obj_to_found(self,Alist):
@@ -387,10 +390,12 @@ class MyPyGame(object):
             self.good_list=self.obj_to_found(self.objects)            
             self.start_pos=(self.start_point_x,self.start_point_y)
             #call the search function
-            
+            self.breakloop=0
             while self.good_list:
                 current_to_be_found=self.find_best_obj((self.start_pos))
                 self.search((self.start_pos),(current_to_be_found),self.Glist)
+                if self.breakloop==1:
+                    break
                 self.start_pos=current_to_be_found
         
             exitGame=True
