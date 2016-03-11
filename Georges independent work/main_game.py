@@ -361,6 +361,7 @@ class MyPyGame(object):
                 x=x+90
 
             #load a new image
+            self.SortDisplay(self.sort_order + " : " + self.sort_type)
 
             descendButton = pygame.image.load('Descending1.png')
             descendButton1 = pygame.image.load('Descending.png')
@@ -374,15 +375,16 @@ class MyPyGame(object):
             colourButton = pygame.image.load('Colour.png')
             colourButton1 = pygame.image.load('Colour1.png')
             
-            self.button(40,100, ascendButton1, ascendButton, "Ascending")
-            self.button(200,100,descendButton1,descendButton,"Descending")
-            self.button(40, 200, shapeButton1, shapeButton, "Shape")
-            self.button(200, 200, colourButton1, colourButton, "Colour")
+            self.button(40,200, ascendButton1, ascendButton, "Ascending")
+            self.button(200,200,descendButton1,descendButton,"Descending")
+            self.button(40, 280, shapeButton1, shapeButton, "Shape")
+            self.button(200, 280, colourButton1, colourButton, "Colour")
             
             qT=pygame.image.load('qT.png')
             qT1=pygame.image.load('qT1.png')
         
             self.button((self.display_width/2)-100,(self.display_height/2)+50,qT1,qT,"quit")
+
             
 
             pygame.display.update()
@@ -561,18 +563,22 @@ class MyPyGame(object):
                     
                 elif action=='Descending':
                     self.sort_order= "Descending"
+                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
                 elif action =='Ascending':
                     self.sort_order = "Ascending"
+                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
 
                 elif action =='Shape':
                     self.sort_type = "Shape"
+                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
 
                 elif action =='Colour':
                     self.sort_type = "Colour"
+                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
                 
@@ -602,7 +608,15 @@ class MyPyGame(object):
         TextSurf,TextRect=self.text_objects(text,self.largeText)
         TextRect.center=((x+15),(y+15))
         self.screen.blit(TextSurf,TextRect)
-        
+
+    def SortDisplay(self, text):
+        pygame.font.init()
+        self.largeText = pygame.font.Font('freesansbold.ttf',20)
+        TextSurf, TextRect = self.text_objects(text, self.largeText)
+        TextRect.center = ((130), (self.display_height/5 ))
+        self.screen.blit(TextSurf, TextRect)
+
+
     def spawn_ship(self):
         
             exitW=False
