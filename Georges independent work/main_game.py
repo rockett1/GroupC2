@@ -221,6 +221,11 @@ class MyPyGame(object):
             colourType = 2
 
         return colourType
+##    def Re_sort (self, objList, sortVar, orderVar):
+##        sortVar = "Descending"
+##        ShapeVar = "Ascending"
+##        
+##        self.bubble(objList, sortVar, orderVar) 
 
     def bubble(self,objList, sortVar, orderVar):
         """
@@ -354,9 +359,29 @@ class MyPyGame(object):
                 i.print_obj_sort(x,y)
                 self.message_display_price(str(i.get_price()),x,y)
                 x=x+90
+
+            #load a new image
+
+            descendButton = pygame.image.load('Descending1.png')
+            descendButton1 = pygame.image.load('Descending.png')
+
+            ascendButton = pygame.image.load('Ascending.png')
+            ascendButton1 = pygame.image.load('Ascending1.png')
+
+            shapeButton = pygame.image.load('Shape.png')
+            shapeButton1 = pygame.image.load('Shape1.png')
+
+            colourButton = pygame.image.load('Colour.png')
+            colourButton1 = pygame.image.load('Colour1.png')
+            
+            self.button(40,100, ascendButton1, ascendButton, "Ascending")
+            self.button(200,100,descendButton1,descendButton,"Descending")
+            self.button(40, 200, shapeButton1, shapeButton, "Shape")
+            self.button(200, 200, colourButton1, colourButton, "Colour")
             
             qT=pygame.image.load('qT.png')
             qT1=pygame.image.load('qT1.png')
+        
             self.button((self.display_width/2)-100,(self.display_height/2)+50,qT1,qT,"quit")
             
 
@@ -527,10 +552,27 @@ class MyPyGame(object):
                 elif action=="quit":
                     pygame.quit()
                     quit()
-                elif action=="spawn":
                     
+                elif action=="spawn":
                     self.game(x,y)
+                    
                 elif action=='sort':
+                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                    
+                elif action=='Descending':
+                    self.sort_order= "Descending"
+                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                    
+                elif action =='Ascending':
+                    self.sort_order = "Ascending"
+                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+
+                elif action =='Shape':
+                    self.sort_type = "Shape"
+                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+
+                elif action =='Colour':
+                    self.sort_type = "Colour"
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
                 
@@ -699,7 +741,10 @@ class Gui():
             inputs = 0
         if inputs2 == "":
             inputs2 = 0
-        self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
+        if inputs2 ==0 and inputs ==0:
+            messagebox.showerror('Error', 'Please enter a searching time')
+        else:
+            self.CheckInput(inputs,inputs2,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput)
     def CheckInput(self,minutes,sec,TriInput,SquareInput,RectInput,BlueInput,RedInput,GreenInput,SortInput,ShapeInput ):
         '''Takes 11 inputs, converts the time inputs into int,defines global variable with
         all input values within it. Makes sure that it is a maximum time value of 6 minutes.
