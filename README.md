@@ -1,11 +1,11 @@
 
-This Project belongs to the Group C2,Year 1, Computer Science, formed from George Coleman, Aaron Hamilton, Joshua Langol, Tim Howard, Sam Rockett, Stefan Salanta
+This Project belongs to the Group C2,Year 1, Computer Science,Coventry University formed by George Coleman, Aaron Hamilton, Joshua Langol, Tim Howard, Sam Rockett, Stefan Salanta
 
 The project is based on the idea of a Virtual Robot Bairgain Hunter.
 
 Our 'game'takes the input from a user: a timer, a sort in and sort by criteria, and the characteristics for the items to be found.
-It uses A* pathfinding algorithm to search for the randomly spawn items, favoiding the randomly spawn obstacles.
-After the search is done, the items are sorted.
+It uses A* pathfinding algorithm to search for the randomly spawn items, avoiding the randomly spawn obstacles.
+After the search is done, the items are sorted and displayed.
 
 This system uses the pygame module
 You need to download thi from:
