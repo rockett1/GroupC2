@@ -2,6 +2,7 @@
 #importing necessary
 import pygame
 import copy
+from math import trunc
 import tkinter as tk
 from tkinter import *
 import sys
@@ -221,11 +222,6 @@ class MyPyGame(object):
             colourType = 2
 
         return colourType
-##    def Re_sort (self, objList, sortVar, orderVar):
-##        sortVar = "Descending"
-##        ShapeVar = "Ascending"
-##        
-##        self.bubble(objList, sortVar, orderVar) 
 
     def bubble(self,objList, sortVar, orderVar):
         """
@@ -360,8 +356,9 @@ class MyPyGame(object):
                 self.message_display_price(str(i.get_price()),x,y)
                 x=x+90
 
+
             #Sets the sorting message to what the user has entered at input menu
-            self.SortDisplay(self.sort_order + " : " + self.sort_type)
+            self.SortDisplay(self.sort_order + " : " + self.sort_type, True, False)
 
             #loads both descend images
             descendButton = pygame.image.load('Descending1.png')
@@ -390,16 +387,83 @@ class MyPyGame(object):
             #load a new image
             qT=pygame.image.load('qT.png')
             qT1=pygame.image.load('qT1.png')
+
+            self.SortDisplay("Best Score:" + str(self.BestScore),False, True)
+            self.SortDisplay("Current Score:" + str(self.score), False, False)
         
-            self.button((self.display_width/2)-100,(self.display_height/2)+50,qT1,qT,"quit")
+            self.button((self.display_width/2)-100,(self.display_height/2)+50,qT1,qT,"quit")        
 
             
 
             pygame.display.update()
+
+    def OutputScore(self):
+
+        self.score = self.SetCurrentScore(self.sort_list)
+        f = open("Score1.txt", "a")
+        f.write(str(self.score) + "\n")
+        f.close()
+        self.BestScore = 400
+        f = open("Score1.txt", "r")
+        for line in f:
+            IntLine = int(line)
+            if IntLine < self.BestScore:
+                self.BestScore = IntLine
+        f.close()
+        print(self.BestScore)
+
+    def SetCurrentScore(self, objList):
+        
+        score = 0
+        green = 0
+        greenList = []
+        red = 0
+        redList = []
+        blue = 0
+        blueList = []
+        for item in objList:
+            Index = objList.index(item)
+            if objList[Index].price <= 3:
+                green = green +1
+                greenList.append(Index)
+            elif objList[Index].price >= 4 and objList[Index].price <= 6:
+                red = red +1
+                redList.append(Index)
+            else:
+                blue = blue+ 1
+                blueList.append(Index)
+        if green == 0:
+            score = score + 3
+        else:
+            for i in greenList:
+                greenCollected = objList[i].price
+            greenAverage = greenCollected/green
+            greenAverage1 = int(greenAverage)
+            score = score + greenAverage1
+        if red == 0:
+            score = score + 6
+        else:
+            for i in redList:
+                redCollected = objList[i].price
+            redAverage = redCollected/red
+            redAverage1 = int(redAverage)
+            score = score + redAverage1
+        if blue == 0:
+            score = score + 9
+        else:
+            for i in blueList:
+                blueCollected = objList[i].price
+            blueAverage = blueCollected/blue
+            blueAverage1 = int(blueAverage)
+            score = score + blueAverage
+        timeScore = int(self.t_current-self.t1)
+        score = trunc(score + timeScore)
+        return score
             
     def end_search(self):
         exitGame=False
         self.screen.blit(self.held_image,(0,0))
+        self.OutputScore()
         while not exitGame:
             for event in pygame.event.get():
                 if event.type==pygame.QUIT:
@@ -434,7 +498,8 @@ class MyPyGame(object):
                 self.start_pos=current_to_be_found
         
             exitGame=True
-        self.end_search()
+        self.end_search()           
+    
     def create_grid(self):
         nri=0
         nrj=0
@@ -569,6 +634,7 @@ class MyPyGame(object):
                 elif action=='sort':
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
+                    
                 #if the descending button has been pressed
                 elif action=='Descending':
                     #This if statement prevents maximum recursion depth error
@@ -578,7 +644,7 @@ class MyPyGame(object):
                     #with the new sorting criteria
                     if self.sort_order != "Descending":
                         self.sort_order= "Descending"
-                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type, True, False)
                         self.bubble(self.sort_list,self.sort_type,self.sort_order)
                 #if the ascending button has been pressed    
                 elif action =='Ascending':
@@ -589,7 +655,7 @@ class MyPyGame(object):
                     #with the new sorting criteria
                     if self.sort_order != "Ascending":
                         self.sort_order = "Ascending"
-                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type, True, False)
                         self.bubble(self.sort_list,self.sort_type,self.sort_order)
                 #if the shape button has been pressed
                 elif action =='Shape':
@@ -600,7 +666,7 @@ class MyPyGame(object):
                     #with the new sorting criteria
                     if self.sort_type != "Shape":
                         self.sort_type = "Shape"
-                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type, True, False)
                         self.bubble(self.sort_list,self.sort_type,self.sort_order)
                 #if the colour button has been pressed
                 elif action =='Colour':
@@ -611,8 +677,9 @@ class MyPyGame(object):
                     #with the new sorting criteria
                     if self.sort_type != "Colour":
                         self.sort_type = "Colour"
-                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type, True, False)
                         self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                        
                     
                 
         else:
@@ -642,14 +709,30 @@ class MyPyGame(object):
         TextRect.center=((x+15),(y+15))
         self.screen.blit(TextSurf,TextRect)
 
-    def SortDisplay(self, text):
-        '''takes one string argument, setz for for a message, passes to function text_objects,
+    def SortDisplay(self, text, ScoreOrSort, CurrentOrBest):
+        '''takes one string argument and one boolean argument, determines whether it
+        is being asked to create a score or a sort messgae. sets the font of the message,
+        passes to function text_objects,
         postions message on the screen, draws it to the screen'''
-        pygame.font.init()
-        self.largeText = pygame.font.Font('freesansbold.ttf',20)
-        TextSurf, TextRect = self.text_objects(text, self.largeText)
-        TextRect.center = ((130), (self.display_height/5 ))
-        self.screen.blit(TextSurf, TextRect)
+        if ScoreOrSort == True:
+            pygame.font.init()
+            self.largeText = pygame.font.Font('freesansbold.ttf',20)
+            TextSurf, TextRect = self.text_objects(text, self.largeText)
+            TextRect.center = ((130), (self.display_height/5 ))
+            self.screen.blit(TextSurf, TextRect)
+        else:
+            if CurrentOrBest == True:
+                pygame.font.init()
+                self.largeText = pygame.font.Font('freesansbold.ttf',20)
+                TextSurf, TextRect = self.text_objects(text, self.largeText)
+                TextRect.center = ((500), (self.display_height/5 + 40 ))
+                self.screen.blit(TextSurf, TextRect)
+            else:
+                pygame.font.init()
+                self.largeText = pygame.font.Font('freesansbold.ttf',20)
+                TextSurf, TextRect = self.text_objects(text, self.largeText)
+                TextRect.center = ((500), (self.display_height/5 ))
+                self.screen.blit(TextSurf, TextRect)
 
 
     def spawn_ship(self):
