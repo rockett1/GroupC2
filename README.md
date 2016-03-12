@@ -1,5 +1,5 @@
 
-This Project belongs to the Group C2,Year 1, Computer Science, formed from
+This Project belongs to the Group C2,Year 1, Computer Science, formed from George Coleman, Aaron Hamilton, Joshua Langol, Tim Howard, Sam Rockett, Stefan Salanta
 
 The project is based on the idea of a Virtual Robot Bairgain Hunter.
 
