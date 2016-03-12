@@ -360,26 +360,34 @@ class MyPyGame(object):
                 self.message_display_price(str(i.get_price()),x,y)
                 x=x+90
 
-            #load a new image
+            #Sets the sorting message to what the user has entered at input menu
             self.SortDisplay(self.sort_order + " : " + self.sort_type)
 
+            #loads both descend images
             descendButton = pygame.image.load('Descending1.png')
             descendButton1 = pygame.image.load('Descending.png')
 
+            #loads both ascend images
             ascendButton = pygame.image.load('Ascending.png')
             ascendButton1 = pygame.image.load('Ascending1.png')
-
+            
+            #loads both shape images
             shapeButton = pygame.image.load('Shape.png')
             shapeButton1 = pygame.image.load('Shape1.png')
-
+            
+            #loads both colour images
             colourButton = pygame.image.load('Colour.png')
             colourButton1 = pygame.image.load('Colour1.png')
-            
+
+            #creates and positons buttons of using the above loaded images
+            #also adds an action name so can be used in button function
             self.button(40,200, ascendButton1, ascendButton, "Ascending")
             self.button(200,200,descendButton1,descendButton,"Descending")
             self.button(40, 280, shapeButton1, shapeButton, "Shape")
             self.button(200, 280, colourButton1, colourButton, "Colour")
-            
+
+
+            #load a new image
             qT=pygame.image.load('qT.png')
             qT1=pygame.image.load('qT1.png')
         
@@ -561,25 +569,50 @@ class MyPyGame(object):
                 elif action=='sort':
                     self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
+                #if the descending button has been pressed
                 elif action=='Descending':
-                    self.sort_order= "Descending"
-                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
-                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
-                    
+                    #This if statement prevents maximum recursion depth error
+                    #works by if the sorting order already equals descending then do nothing
+                    #otherwise change it to equal descending, change the message display
+                    #to reflect the about to be new sorting order. Finally sort the list
+                    #with the new sorting criteria
+                    if self.sort_order != "Descending":
+                        self.sort_order= "Descending"
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                #if the ascending button has been pressed    
                 elif action =='Ascending':
-                    self.sort_order = "Ascending"
-                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
-                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
-
+                    #This if statement prevents maximum recursion depth error
+                    #works by if the sorting order already equals ascending then do nothing
+                    #otherwise change it to equal ascending, change the message display
+                    #to reflect the about to be new sorting order. Finally sort the list
+                    #with the new sorting criteria
+                    if self.sort_order != "Ascending":
+                        self.sort_order = "Ascending"
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                #if the shape button has been pressed
                 elif action =='Shape':
-                    self.sort_type = "Shape"
-                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
-                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
-
+                    #This if statement prevents maximum recursion depth error
+                    #works by if the sorting type already equals shape then do nothing
+                    #otherwise change it to equal shape, change the message display
+                    #to reflect the about to be new sorting type. Finally sort the list
+                    #with the new sorting criteria
+                    if self.sort_type != "Shape":
+                        self.sort_type = "Shape"
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                #if the colour button has been pressed
                 elif action =='Colour':
-                    self.sort_type = "Colour"
-                    self.SortDisplay(self.sort_order + " : " + self.sort_type)
-                    self.bubble(self.sort_list,self.sort_type,self.sort_order)
+                    #This if statement prevents maximum recursion depth error
+                    #works by if the sorting type already equals colour then do nothing
+                    #otherwise change it to equal colour, change the message display
+                    #to reflect the about to be new sorting type. Finally sort the list
+                    #with the new sorting criteria
+                    if self.sort_type != "Colour":
+                        self.sort_type = "Colour"
+                        self.SortDisplay(self.sort_order + " : " + self.sort_type)
+                        self.bubble(self.sort_list,self.sort_type,self.sort_order)
                     
                 
         else:
@@ -610,6 +643,8 @@ class MyPyGame(object):
         self.screen.blit(TextSurf,TextRect)
 
     def SortDisplay(self, text):
+        '''takes one string argument, setz for for a message, passes to function text_objects,
+        postions message on the screen, draws it to the screen'''
         pygame.font.init()
         self.largeText = pygame.font.Font('freesansbold.ttf',20)
         TextSurf, TextRect = self.text_objects(text, self.largeText)
@@ -751,10 +786,12 @@ class Gui():
         GreenInput=self.CheckVar6.get()
         SortInput=self.sortVar.get()
         ShapeInput=self.shapeVar.get()
+        #allows the user to input just minutes or just seconds into the system
         if inputs == "":
             inputs = 0
         if inputs2 == "":
             inputs2 = 0
+        #prevents user from entering neither minutes or seconds into the system
         if inputs2 ==0 and inputs ==0:
             messagebox.showerror('Error', 'Please enter a searching time')
         else:
