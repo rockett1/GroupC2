@@ -387,7 +387,8 @@ class MyPyGame(object):
             #load a new image
             qT=pygame.image.load('qT.png')
             qT1=pygame.image.load('qT1.png')
-
+            
+            #Displays current score and best score to screen
             self.SortDisplay("Best Score:" + str(self.BestScore),False, True)
             self.SortDisplay("Current Score:" + str(self.score), False, False)
         
@@ -398,22 +399,38 @@ class MyPyGame(object):
             pygame.display.update()
 
     def OutputScore(self):
-
+        '''Takes no inputs except from self. Calls function to get score of current game,
+        writes that too the score file, gets the best score (lowest) from the file.
+        Saves it in file for later use. Returns nothing'''
+        #Calls setCurrentScore to get the score from the game just played.
         self.score = self.SetCurrentScore(self.sort_list)
+        #opens the score file
         f = open("Score1.txt", "a")
+        #writes to it the score calculated by setCurrentScore.
         f.write(str(self.score) + "\n")
+        #closes the file
         f.close()
+        #sets the best scores value higher than possible to get
+        #in the game. So that it can be used to whilst searching for best score.
         self.BestScore = 400
+        #opens the score file in read mode
         f = open("Score1.txt", "r")
         for line in f:
+            #goes through line by line in file,
+            #converting the line into an integer and then seeing
+            #if the current line is lower (better) than the previously
+            #lowest score.
             IntLine = int(line)
             if IntLine < self.BestScore:
+                #if it is lower, saves this too the variable so can be compared with
+                #the remaining lines and used later to print to screen.
                 self.BestScore = IntLine
         f.close()
-        print(self.BestScore)
 
     def SetCurrentScore(self, objList):
-        
+        '''takes the list of objects as an input, generates the current score,
+        returns that score as an integer'''
+        #initialises variables to be used
         score = 0
         green = 0
         greenList = []
@@ -421,8 +438,18 @@ class MyPyGame(object):
         redList = []
         blue = 0
         blueList = []
+        greenCollected = 0
+        blueCollected = 0
+        redCollected = 0
+        #loops through list of objects
         for item in objList:
+            #gets index of current object so can refer to it later
             Index = objList.index(item)
+            #checks if the current object is green, red or blue.
+            #if it is one of them, then it adds one to the counter
+            #to represent one more green etc. Adds the objects index
+            #to the colours specific list so place where the object
+            #is in the object list can be found later.
             if objList[Index].price <= 3:
                 green = green +1
                 greenList.append(Index)
@@ -432,32 +459,47 @@ class MyPyGame(object):
             else:
                 blue = blue+ 1
                 blueList.append(Index)
+        #if their was no greens, then add to the score the highest possible
+        #value for greens as a penalty.
         if green == 0:
             score = score + 3
         else:
+            #if their was greens, loop through the list
+            #and find and then assign to a variable
+            #the price of the object.
             for i in greenList:
-                greenCollected = objList[i].price
+                greenCollected = greenCollected + objList[i].price
+            #divides the total cost of all the green objects by
+            #the amount of green shapes there are. Working out the
+            #average.
             greenAverage = greenCollected/green
+            #create this into an integer
             greenAverage1 = int(greenAverage)
+            #add it to the score
             score = score + greenAverage1
+        #Same process with different colour as for green
         if red == 0:
             score = score + 6
         else:
             for i in redList:
-                redCollected = objList[i].price
+                redCollected = redCollected + objList[i].price
             redAverage = redCollected/red
             redAverage1 = int(redAverage)
             score = score + redAverage1
+        #same process with different colour as for green
         if blue == 0:
             score = score + 9
         else:
             for i in blueList:
-                blueCollected = objList[i].price
+                blueCollected = blueCollected + objList[i].price
             blueAverage = blueCollected/blue
             blueAverage1 = int(blueAverage)
             score = score + blueAverage
+        #gets the time that had passed before the end of searching
         timeScore = int(self.t_current-self.t1)
+        #adds this too score.
         score = trunc(score + timeScore)
+        #returns score so it can be used in outputScore function
         return score
             
     def end_search(self):
@@ -711,7 +753,8 @@ class MyPyGame(object):
 
     def SortDisplay(self, text, ScoreOrSort, CurrentOrBest):
         '''takes one string argument and one boolean argument, determines whether it
-        is being asked to create a score or a sort messgae. sets the font of the message,
+        is being asked to create a score or a sort message, if it's a score message.
+         Checks if it's a current or best score message. sets the font of the message,
         passes to function text_objects,
         postions message on the screen, draws it to the screen'''
         if ScoreOrSort == True:
