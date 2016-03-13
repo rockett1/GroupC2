@@ -8,6 +8,6 @@ It uses A* pathfinding algorithm to search for the randomly spawn items, avoidin
 After the search is done, the items are sorted and displayed.
 
 This system uses the pygame module
-You need to download thi from:
+You need to download this from:
 https://onedrive.live.com/?id=7E42B9EED122F59E%2168180&cid=7E42B9EED122F59E&group=0&parId=7E42B9EED122F59E%2168179&authkey=%21AMZvlN22mhfTffU&o=OneUp
 .
